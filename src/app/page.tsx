@@ -214,11 +214,15 @@ export default function Home() {
   useEffect(() => { void loadData(); }, []);
 
   const active = data.find((d) => d.place.id === selectedPlace);
-  const now = new Date();
-  const currentHour = new Intl.DateTimeFormat("sv-SE", {
-    timeZone: "Europe/Istanbul",
-    year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", hourCycle: "h23"
-  }).format(now).replace(" ", "T");
+  const [currentHour, setCurrentHour] = useState("");
+  useEffect(() => {
+    const now = new Date();
+    const hour = new Intl.DateTimeFormat("sv-SE", {
+      timeZone: "Europe/Istanbul",
+      year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", hourCycle: "h23"
+    }).format(now).replace(" ", "T");
+    setCurrentHour(hour);
+  }, []);
   const currentIndex = active?.hours.findIndex((h) => h.time.slice(0, 13) === currentHour) ?? -1;
   const current = active?.hours[currentIndex >= 0 ? currentIndex : 0];
 
