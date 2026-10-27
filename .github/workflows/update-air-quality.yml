@@ -1,6 +1,9 @@
-﻿name: Günlük hava kalitesi verilerini kaydet
+name: Günlük hava kalitesi verilerini kaydet
 
 on:
+  push:
+    branches:
+      - master
   schedule:
     - cron: "15 3 * * *"
   workflow_dispatch:
