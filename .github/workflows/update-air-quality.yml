@@ -1,0 +1,37 @@
+﻿name: Günlük hava kalitesi verilerini kaydet
+
+on:
+  schedule:
+    - cron: "15 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-air-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Depoyu indir
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verileri çek ve JSON dosyalarını kaydet
+        run: node scripts/fetch-air-quality.mjs
+
+      - name: Değişiklikleri depoya kaydet
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/latest.json public/data/history/
+          if git diff --cached --quiet; then
+            echo "Kaydedilecek bir değişiklik yok."
+          else
+            git commit -m "data: günlük hava kalitesi verilerini güncelle"
+            git push
+          fi
