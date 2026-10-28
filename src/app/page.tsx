@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -83,6 +83,8 @@ export default function Home() {
   const [selectedPlace, setSelectedPlace] = useState("manisa");
   const [pollutant, setPollutant] = useState<PollutantKey>("european_aqi");
   const [horizon, setHorizon] = useState("24");
+  const [showChartTable, setShowChartTable] = useState(false);
+  const [showComparisonTable, setShowComparisonTable] = useState(false);
   const [sortBy, setSortBy] = useState<"name" | "aqi" | "pm2_5" | "pm10">("aqi");
   const [sortAscending, setSortAscending] = useState(true);
 
@@ -402,6 +404,43 @@ export default function Home() {
             ) : <div className="empty-state">Grafik için veri bulunamadı.</div>}
           </div>
           <p className="chart-summary"><span className="summary-mark">i</span>{chartSummary} <span>Değerler saatlik tahmindir; gerçek koşullar değişebilir.</span></p>
+          <div className="table-toggle-row">
+            <button
+              type="button"
+              className="table-toggle"
+              aria-expanded={showChartTable}
+              aria-controls="hourly-data-table"
+              onClick={() => setShowChartTable((visible) => !visible)}
+            >
+              {showChartTable ? "Saatlik veri tablosunu gizle" : "Saatlik veriyi tablo olarak göster"}
+            </button>
+          </div>
+          {showChartTable && (
+            <div className="table-scroll chart-data-table" id="hourly-data-table">
+              <table>
+                <caption className="sr-only">
+                  {active?.place.name} — {POLLUTANTS[pollutant].label}, saatlik tahmin
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Tarih ve saat</th>
+                    <th scope="col">{POLLUTANTS[pollutant].label} ({POLLUTANTS[pollutant].unit})</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {chartData.map((hour) => (
+                    <tr key={hour.time}>
+                      <td>{hour.label}</td>
+                      <td className="numeric">{formatNumber(hour[pollutant])}</td>
+                    </tr>
+                  ))}
+                  {!chartData.length && (
+                    <tr><td colSpan={2}>Gösterilecek veri yok.</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
         </section>
 
         <div className="lower-grid">
@@ -423,6 +462,41 @@ export default function Home() {
               )}
             </div>
             <p className="chart-summary"><span className="summary-mark">i</span>Daha düşük AQI, bu indeks kapsamında daha düşük hava kirliliğine işaret eder.</p>
+            <div className="table-toggle-row">
+              <button
+                type="button"
+                className="table-toggle"
+                aria-expanded={showComparisonTable}
+                aria-controls="comparison-data-table"
+                onClick={() => setShowComparisonTable((visible) => !visible)}
+              >
+                {showComparisonTable ? "Karşılaştırma tablosunu gizle" : "Karşılaştırmayı tablo olarak göster"}
+              </button>
+            </div>
+            {showComparisonTable && (
+              <div className="table-scroll chart-data-table" id="comparison-data-table">
+                <table>
+                  <caption className="sr-only">Dört bölgenin önümüzdeki 24 saat için ortalama AQI karşılaştırması</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Bölge</th>
+                      <th scope="col">Ortalama AQI</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {comparisons.map((item) => (
+                      <tr key={item.place.id}>
+                        <td>{item.place.name}</td>
+                        <td className="numeric">{formatNumber(item.aqi)}</td>
+                      </tr>
+                    ))}
+                    {!comparisons.length && (
+                      <tr><td colSpan={2}>Gösterilecek veri yok.</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </section>
 
           <section className="panel explainer-panel">

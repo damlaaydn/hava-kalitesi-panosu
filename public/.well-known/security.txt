@@ -1,0 +1,4 @@
+﻿Contact: https://github.com/damlaaydn/hava-kalitesi-panosu/security/advisories/new
+Expires: 2027-10-28T23:59:00.000Z
+Preferred-Languages: tr, en
+Canonical: https://hava-kalitesi-panosu-7kj2-blond.vercel.app/.well-known/security.txt

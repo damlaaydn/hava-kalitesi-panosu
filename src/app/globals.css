@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -180,3 +180,59 @@ tbody tr:hover, tbody tr.current-row { background: #14242c; }
 }
 @media (max-width: 380px) { .main-content { padding: 0 12px; } .kpi-grid { gap: 7px; } .kpi-card { padding: 11px; } .kpi-value { font-size: 25px; } .kpi-value.location-value { font-size: 19px; } .kpi-icon { width: 24px; height: 24px; } .recommend-icon { display: none; } .breadcrumb { font-size: 10px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+
+
+/* Grafik verileri için açılıp kapanabilen erişilebilir tablolar */
+.table-toggle-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 12px;
+}
+.table-toggle {
+  min-height: 38px;
+  padding: 9px 12px;
+  border: 1px solid #405568;
+  border-radius: 8px;
+  background: #14242c;
+  color: #bfece2;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.table-toggle:hover {
+  border-color: #72e0c0;
+  background: #1a3036;
+}
+.table-toggle:focus-visible {
+  outline: 2px solid #72e0c0;
+  outline-offset: 4px;
+}
+.chart-data-table {
+  max-height: 340px;
+  overflow: auto;
+  margin-top: 10px;
+  border: 1px solid #273648;
+  border-radius: 8px;
+}
+.chart-data-table caption {
+  text-align: left;
+}
+.chart-data-table th,
+.chart-data-table td {
+  padding: 10px 12px;
+}
+.chart-data-table th {
+  position: sticky;
+  top: 0;
+  background: #141f2d;
+}
+@media (max-width: 760px) {
+  .table-toggle {
+    width: 100%;
+    text-align: center;
+  }
+  .chart-data-table th,
+  .chart-data-table td {
+    padding: 10px;
+  }
+}
