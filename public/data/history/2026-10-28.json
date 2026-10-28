@@ -5,7 +5,7 @@
     "url": "https://air-quality-api.open-meteo.com/",
     "documentation": "https://open-meteo.com/en/docs/air-quality-api"
   },
-  "updatedAt": "2026-10-28T17:57:19.693Z",
+  "updatedAt": "2026-10-28T18:53:42.307Z",
   "timezone": "Europe/Istanbul",
   "dataType": "hourly_forecast",
   "locationCount": 4,
